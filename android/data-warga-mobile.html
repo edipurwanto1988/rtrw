@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Data Warga - Sistem RT/RW Pekanbaru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #F8FAFC;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .mobile-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #F8FAFC;
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+        }
+        .warga-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .warga-card:active {
+            transform: scale(0.98);
+        }
+        .bottom-nav-item {
+            transition: all 0.2s ease;
+        }
+        .bottom-nav-item.active {
+            color: #3B82F6;
+        }
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        .filter-chip.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        .fab-button {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .fab-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Status Bar -->
+        <div class="bg-white text-gray-900 px-4 py-2 flex justify-between items-center text-xs border-b border-gray-200">
+            <span>9:41</span>
+            <div class="flex items-center space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 -ml-2">
+                        <i class="fas fa-arrow-left text-gray-700"></i>
+                    </button>
+                    <h1 class="text-lg font-semibold text-gray-900">Data Warga</h1>
+                </div>
+                <button class="p-2">
+                    <i class="fas fa-filter text-gray-700"></i>
+                </button>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="relative">
+                <input type="text" 
+                       placeholder="Cari nama, NIK, atau alamat..." 
+                       class="search-input w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:bg-white transition-all">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="px-4 py-4">
+            <div class="stats-card rounded-xl p-4 text-white">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <p class="text-blue-100 text-sm">Total Warga RT 03</p>
+                        <p class="text-2xl font-bold">45</p>
+                    </div>
+                    <div class="bg-white/20 px-3 py-1 rounded-full">
+                        <span class="text-xs font-medium">8 KK</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-white/10 rounded-lg p-2">
+                        <p class="text-lg font-semibold">22</p>
+                        <p class="text-xs text-blue-100">Laki-laki</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-2">
+                        <p class="text-lg font-semibold">23</p>
+                        <p class="text-xs text-blue-100">Perempuan</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-2">
+                        <p class="text-lg font-semibold">12</p>
+                        <p class="text-xs text-blue-100">Anak-anak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="px-4 pb-3">
+            <div class="flex space-x-2 overflow-x-auto">
+                <button class="filter-chip active px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">
+                    Semua
+                </button>
+                <button class="filter-chip px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">
+                    Kepala Keluarga
+                </button>
+                <button class="filter-chip px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">
+                    Dewasa
+                </button>
+                <button class="filter-chip px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">
+                    Anak-anak
+                </button>
+                <button class="filter-chip px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">
+                    Lansia
+                </button>
+            </div>
+        </div>
+
+        <!-- Warga List -->
+        <main class="px-4 pb-20">
+            <div class="space-y-3">
+                <!-- Warga Card 1 -->
+                <div class="warga-card bg-white rounded-xl p-4 border border-gray-200 slide-up">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://picsum.photos/seed/warga1/56/56.jpg" alt="Warga" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Bapak Ahmad Sutrisno</h3>
+                                    <p class="text-sm text-gray-600">Kepala Keluarga</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Aktif</span>
+                                        <span class="text-xs text-gray-500">NIK: 1401011234560001</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                RT 03/RW 05, Jl. Merdeka No. 123
+                            </div>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="text-blue-600 text-sm font-medium">Detail</button>
+                                <button class="text-gray-600 text-sm font-medium">Hubungi</button>
+                                <button class="text-gray-600 text-sm font-medium">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warga Card 2 -->
+                <div class="warga-card bg-white rounded-xl p-4 border border-gray-200 slide-up">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://picsum.photos/seed/warga2/56/56.jpg" alt="Warga" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Ibu Siti Rahayu</h3>
+                                    <p class="text-sm text-gray-600">Istri</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Aktif</span>
+                                        <span class="text-xs text-gray-500">NIK: 1401011234560002</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                RT 03/RW 05, Jl. Merdeka No. 123
+                            </div>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="text-blue-600 text-sm font-medium">Detail</button>
+                                <button class="text-gray-600 text-sm font-medium">Hubungi</button>
+                                <button class="text-gray-600 text-sm font-medium">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warga Card 3 -->
+                <div class="warga-card bg-white rounded-xl p-4 border border-gray-200 slide-up">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://picsum.photos/seed/warga3/56/56.jpg" alt="Warga" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Budi Santoso</h3>
+                                    <p class="text-sm text-gray-600">Anak</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Pelajar</span>
+                                        <span class="text-xs text-gray-500">Umur: 16 tahun</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                RT 03/RW 05, Jl. Merdeka No. 123
+                            </div>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="text-blue-600 text-sm font-medium">Detail</button>
+                                <button class="text-gray-600 text-sm font-medium">Hubungi</button>
+                                <button class="text-gray-600 text-sm font-medium">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warga Card 4 -->
+                <div class="warga-card bg-white rounded-xl p-4 border border-gray-200 slide-up">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://picsum.photos/seed/warga4/56/56.jpg" alt="Warga" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Bapak Haji Rahman</h3>
+                                    <p class="text-sm text-gray-600">Kepala Keluarga</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full">Lansia</span>
+                                        <span class="text-xs text-gray-500">NIK: 1401011234560003</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                RT 03/RW 05, Jl. Merdeka No. 125
+                            </div>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="text-blue-600 text-sm font-medium">Detail</button>
+                                <button class="text-gray-600 text-sm font-medium">Hubungi</button>
+                                <button class="text-gray-600 text-sm font-medium">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warga Card 5 -->
+                <div class="warga-card bg-white rounded-xl p-4 border border-gray-200 slide-up">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://picsum.photos/seed/warga5/56/56.jpg" alt="Warga" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Ibu Sumarni</h3>
+                                    <p class="text-sm text-gray-600">Kepala Keluarga</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Aktif</span>
+                                        <span class="text-xs text-gray-500">NIK: 1401011234560004</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                RT 03/RW 05, Jl. Merdeka No. 127
+                            </div>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="text-blue-600 text-sm font-medium">Detail</button>
+                                <button class="text-gray-600 text-sm font-medium">Hubungi</button>
+                                <button class="text-gray-600 text-sm font-medium">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="mt-6 text-center">
+                <button class="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium">
+                    Muat Lebih Banyak
+                </button>
+            </div>
+        </main>
+
+        <!-- Floating Action Button -->
+        <button class="fab-button fixed bottom-20 right-4 w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center">
+            <i class="fas fa-plus text-lg"></i>
+        </button>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+            <div class="max-w-md mx-auto">
+                <div class="grid grid-cols-4 py-2">
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-home text-xl mb-1"></i>
+                        <span class="text-xs">Beranda</span>
+                    </button>
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-edit text-xl mb-1"></i>
+                        <span class="text-xs">Lapor</span>
+                    </button>
+                    <button class="bottom-nav-item active flex flex-col items-center py-2">
+                        <i class="fas fa-chart-bar text-xl mb-1"></i>
+                        <span class="text-xs">Data</span>
+                    </button>
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-user text-xl mb-1"></i>
+                        <span class="text-xs">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Filter chips interaction
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(c => {
+                    c.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            // Implement search logic here
+            console.log('Searching for:', searchTerm);
+        });
+
+        // Warga card interactions
+        document.querySelectorAll('.warga-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Navigate to detail page
+                console.log('Navigate to warga detail');
+            });
+        });
+
+        // Floating action button
+        document.querySelector('.fab-button').addEventListener('click', function() {
+            // Open add warga form
+            console.log('Open add warga form');
+        });
+
+        // Bottom navigation interaction
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.bottom-nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    nav.classList.add('text-gray-500');
+                });
+                this.classList.add('active');
+                this.classList.remove('text-gray-500');
+            });
+        });
+
+        // Load more functionality
+        document.querySelector('.mt-6 button').addEventListener('click', function() {
+            this.textContent = 'Memuat...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                this.textContent = 'Muat Lebih Banyak';
+                this.disabled = false;
+                // Add more warga cards here
+            }, 1500);
+        });
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const statsCard = document.querySelector('.stats-card');
+            const totalWarga = statsCard.querySelector('.text-2xl');
+            const currentValue = parseInt(totalWarga.textContent);
+            
+            // Randomly update stats (for demo purposes)
+            if (Math.random() > 0.8) {
+                totalWarga.textContent = currentValue + 1;
+                totalWarga.classList.add('pulse-animation');
+                setTimeout(() => {
+                    totalWarga.classList.remove('pulse-animation');
+                }, 1000);
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

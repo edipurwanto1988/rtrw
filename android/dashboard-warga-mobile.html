@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Warga - Sistem RT/RW Net</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .mobile-container {
+            max-width: 428px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 428px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            z-index: 50;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+        .quick-action {
+            transition: all 0.2s ease;
+        }
+        .quick-action:active {
+            transform: scale(0.95);
+        }
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-amber-700 to-orange-600 text-white p-4 pb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                    <img src="https://picsum.photos/seed/warga/40/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white/30">
+                    <div>
+                        <h1 class="text-lg font-semibold">Ahmad Susanto</h1>
+                        <p class="text-amber-100 text-sm">Warga RW 03 RT 02</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button class="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors">
+                        <i class="fas fa-bell text-white"></i>
+                    </button>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full notification-badge"></span>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 gap-3 mt-6">
+                <div class="stat-card p-4 rounded-xl text-white">
+                    <div class="flex items-center justify-between mb-2">
+                        <i class="fas fa-file-alt text-white/80"></i>
+                        <span class="text-xs bg-white/20 px-2 py-1 rounded-full">2</span>
+                    </div>
+                    <div class="text-2xl font-bold">5</div>
+                    <div class="text-xs text-amber-100">Laporan Saya</div>
+                </div>
+                <div class="stat-card p-4 rounded-xl text-white">
+                    <div class="flex items-center justify-between mb-2">
+                        <i class="fas fa-calendar-check text-white/80"></i>
+                        <span class="text-xs bg-white/20 px-2 py-1 rounded-full">1</span>
+                    </div>
+                    <div class="text-2xl font-bold">3</div>
+                    <div class="text-xs text-amber-100">Agenda Aktif</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="px-4 py-6 pb-20">
+            <!-- Quick Actions -->
+            <section class="mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Layanan Cepat</h2>
+                <div class="grid grid-cols-4 gap-3">
+                    <button class="quick-action flex flex-col items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-2">
+                            <i class="fas fa-edit text-amber-600"></i>
+                        </div>
+                        <span class="text-xs text-gray-700">Lapor</span>
+                    </button>
+                    <button class="quick-action flex flex-col items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-2">
+                            <i class="fas fa-id-card text-blue-600"></i>
+                        </div>
+                        <span class="text-xs text-gray-700">Surat</span>
+                    </button>
+                    <button class="quick-action flex flex-col items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-2">
+                            <i class="fas fa-hand-holding-usd text-green-600"></i>
+                        </div>
+                        <span class="text-xs text-gray-700">Bantuan</span>
+                    </button>
+                    <button class="quick-action flex flex-col items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-2">
+                            <i class="fas fa-calendar text-purple-600"></i>
+                        </div>
+                        <span class="text-xs text-gray-700">Agenda</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- My Reports -->
+            <section class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900">Laporan Saya</h2>
+                    <button class="text-amber-600 text-sm font-medium">Lihat Semua</button>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">Selesai</span>
+                                <span class="text-xs text-gray-500">2 hari lalu</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                        <h3 class="font-medium text-gray-900 mb-1">Permohonan Surat Domisili</h3>
+                        <p class="text-sm text-gray-600 mb-2">Pengajuan surat keterangan domisili untuk keperluan pembuatan KTP...</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-600 text-sm"></i>
+                                <span class="text-xs text-gray-600">Disetujui oleh Ketua RT</span>
+                            </div>
+                            <button class="text-amber-600 text-sm font-medium">Detail</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full font-medium">Proses</span>
+                                <span class="text-xs text-gray-500">5 hari lalu</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                        <h3 class="font-medium text-gray-900 mb-1">Laporan Jalan Rusak</h3>
+                        <p class="text-sm text-gray-600 mb-2">Jalan di depan rumah mengalami kerusakan parah dan berbahaya...</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-clock text-amber-600 text-sm"></i>
+                                <span class="text-xs text-gray-600">Sedang diproses Ketua RW</span>
+                            </div>
+                            <button class="text-amber-600 text-sm font-medium">Detail</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community News -->
+            <section class="mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Informasi Warga</h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://picsum.photos/seed/ketuarw/48/48" alt="Ketua RW" class="w-12 h-12 rounded-lg">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="font-medium text-gray-900">Pengumuman dari Ketua RW</h3>
+                                    <span class="text-xs text-gray-500">1 jam lalu</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Pemberitahuan mengenai jadwal pemadaman listrik besok pukul 09:00-12:00 WIB...</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Pengumuman</span>
+                                    <span class="text-xs text-gray-500">45 warga membaca</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://picsum.photos/seed/rt/48/48" alt="Ketua RT" class="w-12 h-12 rounded-lg">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="font-medium text-gray-900">Undangan Musyawarah RT</h3>
+                                    <span class="text-xs text-gray-500">3 jam lalu</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Diundang untuk musyawarah pembahasan rencana gotong royong bersih-bersih...</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Undangan</span>
+                                    <span class="text-xs text-gray-500">23 warga konfirm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Agenda Mendatang</h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-amber-100 rounded-lg flex flex-col items-center justify-center">
+                                <div class="text-xs font-bold text-amber-900">NOV</div>
+                                <div class="text-lg font-bold text-amber-900">15</div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">Musyawarah RT 02</h3>
+                                <p class="text-sm text-gray-600">19:00 - Rumah Ketua RT</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded">Wajib</span>
+                                    <span class="text-xs text-gray-500">Warga RT 02</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex flex-col items-center justify-center">
+                                <div class="text-xs font-bold text-blue-900">NOV</div>
+                                <div class="text-lg font-bold text-blue-900">18</div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">Imunisasi Anak</h3>
+                                <p class="text-sm text-gray-600">08:00 - Posyandu RW 03</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Kesehatan</span>
+                                    <span class="text-xs text-gray-500">Gratis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="grid grid-cols-5 py-2">
+                <button class="flex flex-col items-center py-2 text-amber-600">
+                    <i class="fas fa-home text-xl mb-1"></i>
+                    <span class="text-xs">Beranda</span>
+                </button>
+                <button class="flex flex-col items-center py-2 text-gray-400">
+                    <i class="fas fa-edit text-xl mb-1"></i>
+                    <span class="text-xs">Lapor</span>
+                </button>
+                <button class="flex flex-col items-center py-2 text-gray-400">
+                    <i class="fas fa-id-card text-xl mb-1"></i>
+                    <span class="text-xs">Surat</span>
+                </button>
+                <button class="flex flex-col items-center py-2 text-gray-400">
+                    <i class="fas fa-users text-xl mb-1"></i>
+                    <span class="text-xs">Komunitas</span>
+                </button>
+                <button class="flex flex-col items-center py-2 text-gray-400">
+                    <i class="fas fa-user text-xl mb-1"></i>
+                    <span class="text-xs">Profil</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Mobile interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quick actions feedback
+            document.querySelectorAll('.quick-action').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Add ripple effect
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+
+            // Bottom navigation
+            document.querySelectorAll('.bottom-nav button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active state from all buttons
+                    document.querySelectorAll('.bottom-nav button').forEach(btn => {
+                        btn.classList.remove('text-amber-600');
+                        btn.classList.add('text-gray-400');
+                    });
+                    
+                    // Add active state to clicked button
+                    this.classList.remove('text-gray-400');
+                    this.classList.add('text-amber-600');
+                });
+            });
+
+            // Notification badge animation
+            setInterval(() => {
+                const badge = document.querySelector('.notification-badge');
+                if (badge) {
+                    badge.style.opacity = badge.style.opacity === '0' ? '1' : '0';
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

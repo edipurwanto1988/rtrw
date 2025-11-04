@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Sistem - Sistem RT/RW Pekanbaru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-transition { transition: all 0.3s ease; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .tab-active { border-bottom: 2px solid #3B82F6; color: #3B82F6; background: #EFF6FF; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #CBD5E1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #3B82F6;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-50">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <button id="sidebarToggle" class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <div class="ml-4 flex items-center">
+                        <div class="w-8 h-8 bg-blue-800 rounded flex items-center justify-center">
+                            <i class="fas fa-city text-white text-sm"></i>
+                        </div>
+                        <h1 class="ml-3 text-xl font-semibold text-gray-900">Sistem RT/RW Pekanbaru</h1>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="relative">
+                        <input type="text" placeholder="Cari pengaturan..." class="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- User Menu -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-3 text-sm rounded-lg p-2 hover:bg-gray-100">
+                            <img src="https://picsum.photos/seed/admin/40/40.jpg" alt="User" class="w-8 h-8 rounded-full">
+                            <div class="text-left">
+                                <div class="font-medium text-gray-900">Admin Sistem</div>
+                                <div class="text-xs text-gray-500">Super Admin</div>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar-transition fixed left-0 top-16 bottom-0 w-64 bg-white shadow-lg border-r border-gray-200 z-40">
+        <nav class="p-4 space-y-2">
+            <a href="dashboard-walikota.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-tachometer-alt w-5"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="manajemen-wilayah.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-map-marked-alt w-5"></i>
+                <span>Manajemen Wilayah</span>
+            </a>
+            <a href="manajemen-pelaporan.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-clipboard-list w-5"></i>
+                <span>Pelaporan</span>
+                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>
+            </a>
+            <a href="manajemen-umkm.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-store w-5"></i>
+                <span>UMKM</span>
+            </a>
+            <a href="manajemen-musyawarah.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-users w-5"></i>
+                <span>Musyawarah</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-chart-bar w-5"></i>
+                <span>Laporan</span>
+            </a>
+            <a href="user-management.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-users-cog w-5"></i>
+                <span>User Management</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-700">
+                <i class="fas fa-cog w-5"></i>
+                <span>Pengaturan</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 mt-16 p-6">
+        <!-- Page Header -->
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">Pengaturan Sistem</h2>
+            <p class="text-gray-600">Konfigurasi sistem dan preferensi aplikasi</p>
+        </div>
+
+        <!-- Settings Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8 px-6">
+                    <button onclick="switchTab('general')" class="tab-btn py-4 px-1 border-b-2 font-medium text-sm tab-active" data-tab="general">
+                        Umum
+                    </button>
+                    <button onclick="switchTab('security')" class="tab-btn py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="security">
+                        Keamanan
+                    </button>
+                    <button onclick="switchTab('notification')" class="tab-btn py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="notification">
+                        Notifikasi
+                    </button>
+                    <button onclick="switchTab('integration')" class="tab-btn py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="integration">
+                        Integrasi
+                    </button>
+                    <button onclick="switchTab('backup')" class="tab-btn py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="backup">
+                        Backup
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- General Tab -->
+                <div id="general-tab" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Informasi Sistem</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Nama Sistem</label>
+                                        <input type="text" value="Sistem Informasi RT/RW Pekanbaru" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Versi</label>
+                                        <input type="text" value="v1.0.0" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Logo Sistem</label>
+                                        <div class="mt-1 flex items-center space-x-4">
+                                            <img src="https://picsum.photos/seed/logo/100/100.jpg" alt="Logo" class="w-16 h-16 rounded-lg border border-gray-300">
+                                            <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                                                <i class="fas fa-upload mr-2"></i>Upload Logo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Konfigurasi Aplikasi</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Bahasa Default</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Bahasa Indonesia</option>
+                                            <option>English</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Zona Waktu</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>WIB (GMT+7)</option>
+                                            <option>WITA (GMT+8)</option>
+                                            <option>CIT (GMT+9)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Format Tanggal</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>DD/MM/YYYY</option>
+                                            <option>MM/DD/YYYY</option>
+                                            <option>YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Preferensi Tampilan</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Tema</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Light (Default)</option>
+                                            <option>Dark</option>
+                                            <option>Auto</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Tampilkan sidebar otomatis</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Animasi dan transisi</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Mode compact</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Pengaturan Email</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">SMTP Server</label>
+                                        <input type="text" value="smtp.sistemrt-rw.go.id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Port SMTP</label>
+                                        <input type="number" value="587" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Email Pengirim</label>
+                                        <input type="email" value="noreply@sistemrt-rw.go.id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                            Batal
+                        </button>
+                        <button onclick="saveSettings()" class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900">
+                            <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div id="security-tab" class="tab-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Kebijakan Password</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Panjang minimum password</label>
+                                        <input type="number" value="8" min="6" max="20" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Kekuatan password</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Sedang (Huruf, angka, karakter khusus)</option>
+                                            <option>Kuat (Semua requirements)</option>
+                                            <option>Sangat Kuat (Requirements kompleks)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Password expiry (90 hari)</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Riwayat password tidak boleh sama</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Session Management</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Session timeout (menit)</label>
+                                        <input type="number" value="30" min="5" max="480" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Remember me option</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Multiple session prevention</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Auto logout dari device lain</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Two-Factor Authentication</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Enable 2FA untuk admin</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Require 2FA untuk semua user</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Metode 2FA</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Google Authenticator</option>
+                                            <option>WhatsApp</option>
+                                            <option>Email OTP</option>
+                                            <option>SMS OTP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Access Control</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Maximum login attempts</label>
+                                        <input type="number" value="5" min="3" max="10" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Lockout duration (menit)</label>
+                                        <input type="number" value="15" min="5" max="60" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">IP whitelist</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Tab -->
+                <div id="notification-tab" class="tab-content hidden">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Pengaturan Notifikasi Email</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi laporan baru</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi user baru</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi sistem maintenance</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi backup harian</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi security alerts</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Notifikasi UMKM baru</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Pengaturan Push Notification</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Firebase Server Key</label>
+                                    <input type="password" value="•••••••••••••••••••••••••••" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">FCM Endpoint</label>
+                                    <input type="text" value="https://fcm.googleapis.com/fcm/send" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                </div>
+                                <div>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                        <span class="text-sm text-gray-700">Enable push notifications</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration Tab -->
+                <div id="integration-tab" class="tab-content hidden">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Integrasi Sistem Pemerintah</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">API Dukcapil</label>
+                                        <input type="text" placeholder="https://api.dukcapil.go.id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">API Key Dukcapil</label>
+                                        <input type="password" placeholder="•••••••••••••••••••••••••••" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">API OSS</label>
+                                        <input type="text" placeholder="https://api.oss.go.id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">API Key OSS</label>
+                                        <input type="password" placeholder="•••••••••••••••••••••••••••" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Integrasi Payment Gateway</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Payment Provider</label>
+                                    <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                        <option>Midtrans</option>
+                                        <option>Xendit</option>
+                                        <option>DOKU</option>
+                                        <option>OVO</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Merchant ID</label>
+                                    <input type="text" placeholder="Masukkan Merchant ID" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">API Key</label>
+                                    <input type="password" placeholder="•••••••••••••••••••••••••••" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                </div>
+                                <div>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                        <span class="text-sm text-gray-700">Enable payment gateway</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup Tab -->
+                <div id="backup-tab" class="tab-content hidden">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Backup Otomatis</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Enable auto backup</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Frekuensi backup</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Harian</option>
+                                            <option>Mingguan</option>
+                                            <option>Bulanan</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Waktu backup</label>
+                                        <input type="time" value="02:00" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Lokasi backup</label>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option>Local Storage</option>
+                                            <option>Cloud Storage (AWS S3)</option>
+                                            <option>Cloud Storage (Google Drive)</option>
+                                            <option>FTP Server</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Retensi backup (hari)</label>
+                                        <input type="number" value="30" min="7" max="365" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Encrypt backup</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Manajemen Backup</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Backup Terakhir</p>
+                                        <p class="text-xs text-gray-500">04 November 2025, 02:00 WIB</p>
+                                        <p class="text-xs text-gray-500">Ukuran: 245 MB</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                                            <i class="fas fa-download mr-1"></i>Download
+                                        </button>
+                                        <button class="px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700">
+                                            <i class="fas fa-undo mr-1"></i>Restore
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Backup Sebelumnya</p>
+                                        <p class="text-xs text-gray-500">03 November 2025, 02:00 WIB</p>
+                                        <p class="text-xs text-gray-500">Ukuran: 238 MB</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                                            <i class="fas fa-download mr-1"></i>Download
+                                        </button>
+                                        <button class="px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
+                                            <i class="fas fa-trash mr-1"></i>Hapus
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-center">
+                                    <button onclick="createBackup()" class="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
+                                        <i class="fas fa-save mr-2"></i>Buat Backup Sekarang
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Notification -->
+    <div id="notification" class="hidden fixed top-20 right-4 z-50 fade-in">
+        <div class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText">Pengaturan berhasil disimpan!</span>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-gray-500');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-gray-500');
+        }
+
+        // Sidebar Toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const main = document.querySelector('main');
+            sidebar.classList.toggle('-translate-x-full');
+            main.classList.toggle('ml-0');
+            main.classList.toggle('ml-64');
+        });
+
+        // Save settings function
+        function saveSettings() {
+            showNotification('Pengaturan berhasil disimpan!');
+            console.log('Saving system settings...');
+            
+            // Simulate API call
+            setTimeout(() => {
+                showNotification('Pengaturan berhasil diperbarui!');
+            }, 1500);
+        }
+
+        // Create backup function
+        function createBackup() {
+            showNotification('Backup sedang dibuat...');
+            console.log('Creating backup...');
+            
+            // Simulate backup process
+            setTimeout(() => {
+                showNotification('Backup berhasil dibuat!');
+            }, 3000);
+        }
+
+        // Show notification function
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            document.getElementById('notificationText').textContent = message;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Auto-save functionality
+        let autoSaveTimer;
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('change', function() {
+                clearTimeout(autoSaveTimer);
+                autoSaveTimer = setTimeout(() => {
+                    console.log('Auto-saving settings...');
+                }, 2000);
+            });
+        });
+
+        // Form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings();
+            });
+        });
+    </script>
+</body>
+</html>

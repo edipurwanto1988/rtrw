@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Notifikasi - Sistem RT/RW Pekanbaru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #F8FAFC;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .mobile-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #F8FAFC;
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+        }
+        .notification-card {
+            transition: all 0.3s ease;
+            transform: translateX(0);
+        }
+        .notification-card:active {
+            transform: scale(0.98);
+        }
+        .notification-card.unread {
+            background: linear-gradient(to right, #EFF6FF, #F8FAFC);
+            border-left: 3px solid #3B82F6;
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .filter-tab {
+            transition: all 0.3s ease;
+        }
+        .filter-tab.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .bottom-nav-item {
+            transition: all 0.2s ease;
+        }
+        .bottom-nav-item.active {
+            color: #3B82F6;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Status Bar -->
+        <div class="bg-white text-gray-900 px-4 py-2 flex justify-between items-center text-xs border-b border-gray-200">
+            <span>9:41</span>
+            <div class="flex items-center space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 -ml-2">
+                        <i class="fas fa-arrow-left text-gray-700"></i>
+                    </button>
+                    <h1 class="text-lg font-semibold text-gray-900">Notifikasi</h1>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="p-2 relative">
+                        <i class="fas fa-check-double text-gray-700"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full pulse-dot"></span>
+                    </button>
+                    <button class="p-2">
+                        <i class="fas fa-cog text-gray-700"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Filter Tabs -->
+            <div class="flex space-x-2">
+                <button class="filter-tab active px-4 py-2 rounded-full text-sm font-medium">
+                    Semua
+                </button>
+                <button class="filter-tab px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                    Belum Dibaca
+                </button>
+                <button class="filter-tab px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                    Penting
+                </button>
+                <button class="filter-tab px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                    Arsip
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="px-4 py-4 pb-20">
+            <!-- Today's Notifications -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-gray-500 mb-3">HARI INI</h3>
+                <div class="space-y-3">
+                    <!-- Urgent Notification -->
+                    <div class="notification-card unread bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-red-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Laporan Urgent</h4>
+                                        <p class="text-sm text-gray-600 mt-1">Bocornya pipa air di RT 03/02 membutuhkan penanganan segera</p>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">Urgent</span>
+                                            <span class="text-xs text-gray-500">5 menit lalu</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meeting Reminder -->
+                    <div class="notification-card unread bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-calendar-check text-blue-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Reminder Musyawarah</h4>
+                                        <p class="text-sm text-gray-600 mt-1">Musyawarah pembahasan anggaran besok pukul 19:00 WIB</p>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Meeting</span>
+                                            <span class="text-xs text-gray-500">1 jam lalu</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Resident -->
+                    <div class="notification-card unread bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-user-plus text-green-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Warga Baru</h4>
+                                        <p class="text-sm text-gray-600 mt-1">Keluarga Bapak Budi pindah ke RT 03, silakan verifikasi data</p>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Warga</span>
+                                            <span class="text-xs text-gray-500">2 jam lalu</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yesterday's Notifications -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-gray-500 mb-3">KEMARIN</h3>
+                <div class="space-y-3">
+                    <!-- Report Completed -->
+                    <div class="notification-card bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Laporan Selesai</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Perbaikan jalan berlubang di RT 03/05 telah selesai</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Selesai</span>
+                                        <span class="text-xs text-gray-500">Kemarin, 15:30</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UMKM Approved -->
+                    <div class="notification-card bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-store text-amber-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">UMKM Disetujui</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Proposal bantuan untuk Warung Nasi Padang telah disetujui</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full">UMKM</span>
+                                        <span class="text-xs text-gray-500">Kemarin, 14:15</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Update -->
+                    <div class="notification-card bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-info-circle text-purple-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Pembaruan Sistem</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Sistem akan maintenance pada tanggal 10 November pukul 23:00</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Sistem</span>
+                                        <span class="text-xs text-gray-500">Kemarin, 10:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This Week -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-gray-500 mb-3">MINGGU INI</h3>
+                <div class="space-y-3">
+                    <!-- Announcement -->
+                    <div class="notification-card bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-bullhorn text-cyan-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Pengumuman</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Vaksinasi gratis di Kelurahan tanggal 15-17 November</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-cyan-100 text-cyan-700 px-2 py-1 rounded-full">Kesehatan</span>
+                                        <span class="text-xs text-gray-500">3 hari lalu</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Report -->
+                    <div class="notification-card bg-white rounded-xl p-4 border border-gray-200 slide-in">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chart-bar text-indigo-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Laporan Bulanan</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Laporan bulanan Oktober 2025 telah tersedia</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">Laporan</span>
+                                        <span class="text-xs text-gray-500">5 hari lalu</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center">
+                <button class="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium">
+                    Muat Lebih Banyak
+                </button>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+            <div class="max-w-md mx-auto">
+                <div class="grid grid-cols-4 py-2">
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-home text-xl mb-1"></i>
+                        <span class="text-xs">Beranda</span>
+                    </button>
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-edit text-xl mb-1"></i>
+                        <span class="text-xs">Lapor</span>
+                    </button>
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-chart-bar text-xl mb-1"></i>
+                        <span class="text-xs">Data</span>
+                    </button>
+                    <button class="bottom-nav-item text-gray-500 flex flex-col items-center py-2">
+                        <i class="fas fa-user text-xl mb-1"></i>
+                        <span class="text-xs">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Filter tabs interaction
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.classList.add('bg-gray-100', 'text-gray-700');
+                });
+                this.classList.add('active');
+                this.classList.remove('bg-gray-100', 'text-gray-700');
+                
+                // Filter notifications based on selected tab
+                const filterType = this.textContent.trim();
+                console.log('Filter by:', filterType);
+                filterNotifications(filterType);
+            });
+        });
+
+        // Filter notifications function
+        function filterNotifications(type) {
+            const notifications = document.querySelectorAll('.notification-card');
+            
+            notifications.forEach(notification => {
+                notification.style.display = 'block';
+                
+                if (type === 'Belum Dibaca') {
+                    notification.style.display = notification.classList.contains('unread') ? 'block' : 'none';
+                } else if (type === 'Penting') {
+                    const hasUrgentTag = notification.querySelector('.bg-red-100');
+                    notification.style.display = hasUrgentTag ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Mark as read functionality
+        document.querySelectorAll('.notification-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (this.classList.contains('unread')) {
+                    this.classList.remove('unread');
+                    const unreadDot = this.querySelector('.w-2.h-2.bg-blue-600');
+                    if (unreadDot) {
+                        unreadDot.remove();
+                    }
+                    
+                    // Update unread count
+                    updateUnreadCount();
+                }
+            });
+        });
+
+        // Mark all as read
+        document.querySelector('.fa-check-double').parentElement.addEventListener('click', function() {
+            document.querySelectorAll('.notification-card.unread').forEach(card => {
+                card.classList.remove('unread');
+                const unreadDot = card.querySelector('.w-2.h-2.bg-blue-600');
+                if (unreadDot) {
+                    unreadDot.remove();
+                }
+            });
+            
+            // Remove pulse dot from header
+            const pulseDot = document.querySelector('.pulse-dot');
+            if (pulseDot) {
+                pulseDot.style.display = 'none';
+            }
+            
+            updateUnreadCount();
+        });
+
+        // Update unread count
+        function updateUnreadCount() {
+            const unreadCount = document.querySelectorAll('.notification-card.unread').length;
+            const pulseDot = document.querySelector('.pulse-dot');
+            
+            if (unreadCount === 0 && pulseDot) {
+                pulseDot.style.display = 'none';
+            }
+        }
+
+        // Settings button
+        document.querySelector('.fa-cog').parentElement.addEventListener('click', function() {
+            console.log('Open notification settings');
+        });
+
+        // Load more functionality
+        document.querySelector('.text-center button').addEventListener('click', function() {
+            this.textContent = 'Memuat...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                this.textContent = 'Muat Lebih Banyak';
+                this.disabled = false;
+                // Add more notifications here
+            }, 1500);
+        });
+
+        // Bottom navigation interaction
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.bottom-nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    nav.classList.add('text-gray-500');
+                });
+                this.classList.add('active');
+                this.classList.remove('text-gray-500');
+            });
+        });
+
+        // Simulate real-time notifications
+        setTimeout(() => {
+            const newNotification = document.createElement('div');
+            newNotification.className = 'notification-card unread bg-white rounded-xl p-4 border border-gray-200 fade-in';
+            newNotification.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Laporan Baru</h4>
+                                <p class="text-sm text-gray-600 mt-1">Laporan urgent dari warga RT 03/01</p>
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">Urgent</span>
+                                    <span class="text-xs text-gray-500">Baru saja</span>
+                                </div>
+                            </div>
+                            <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const todaySection = document.querySelector('.mb-6');
+            todaySection.querySelector('.space-y-3').insertBefore(newNotification, todaySection.querySelector('.space-y-3').firstChild);
+        }, 5000);
+
+        // Pull-to-refresh functionality
+        let startY = 0;
+        let isPulling = false;
+
+        document.addEventListener('touchstart', function(e) {
+            startY = e.touches[0].pageY;
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            const currentY = e.touches[0].pageY;
+            const diff = currentY - startY;
+            
+            if (diff > 100 && window.scrollY === 0) {
+                isPulling = true;
+                document.body.style.transform = `translateY(${Math.min(diff * 0.5, 50)}px)`;
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            if (isPulling) {
+                document.body.style.transform = '';
+                isPulling = false;
+                
+                // Refresh notifications
+                console.log('Refreshing notifications...');
+            }
+        });
+    </script>
+</body>
+</html>

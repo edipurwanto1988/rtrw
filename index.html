@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem RT/RW Net - Pekanbaru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-button { transition: all 0.3s ease; }
+        .tab-button:hover { transform: translateY(-2px); }
+        .tab-button.active { background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%); color: white; }
+        .file-card { transition: all 0.3s ease; }
+        .file-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px rgba(0,0,0,0.15); }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #2563EB 100%);
+        }
+        .feature-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .floating { animation: float 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-city text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Sistem RT/RW Net</h1>
+                        <p class="text-blue-100">Platform Digital untuk Pemerintahan Tingkat RT/RW</p>
+                    </div>
+                </div>
+                <button class="px-4 py-2 bg-white text-blue-800 rounded-lg hover:bg-gray-100" onclick="window.open('https://github.com/edipurwanto1988/rtrw.git', '_blank')">
+                    <i class="fas fa-github mr-2"></i>
+                    GitHub
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h2 class="text-4xl font-bold mb-4">Apa itu Sistem RT/RW Net?</h2>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    Sistem RT/RW Net adalah platform digital terintegrasi yang menghubungkan seluruh tingkatan pemerintahan 
+                    dari Walikota hingga Ketua RT dalam satu ekosistem yang efisien, transparan, dan modern.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="feature-card p-6 rounded-xl border border-white/20 bg-white/10">
+                        <div class="w-12 h-12 bg-white/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-white">5 Tingkatan Pemerintahan</h3>
+                        <p class="text-white/90">Struktur hierarki dari Walikota → Camat → Lurah → Ketua RW → Ketua RT yang terhubung dalam satu sistem terintegrasi</p>
+                    </div>
+                    <div class="feature-card p-6 rounded-xl border border-white/20 bg-white/10">
+                        <div class="w-12 h-12 bg-white/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-desktop text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-white">Aplikasi Web untuk Pejabat</h3>
+                        <p class="text-white/90">Dashboard komprehensif untuk Walikota, Camat, dan Lurah dengan fitur monitoring dan manajemen data</p>
+                    </div>
+                    <div class="feature-card p-6 rounded-xl border border-white/20 bg-white/10">
+                        <div class="w-12 h-12 bg-white/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-mobile-alt text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-white">Aplikasi Mobile untuk Warga</h3>
+                        <p class="text-white/90">Aplikasi Android untuk Ketua RT/RW dan warga dengan fitur pelaporan, layanan, dan notifikasi push</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Tab Navigation -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-lg shadow-md p-1 inline-flex">
+                <button onclick="switchTab('overview')" class="tab-button active px-6 py-3 rounded-md font-medium" data-tab="overview">
+                    <i class="fas fa-info-circle mr-2"></i>Overview
+                </button>
+                <button onclick="switchTab('web')" class="tab-button px-6 py-3 rounded-md font-medium text-gray-600 hover:text-gray-900" data-tab="web">
+                    <i class="fas fa-desktop mr-2"></i>Web App
+                </button>
+                <button onclick="switchTab('android')" class="tab-button px-6 py-3 rounded-md font-medium text-gray-600 hover:text-gray-900" data-tab="android">
+                    <i class="fas fa-mobile-alt mr-2"></i>Android App
+                </button>
+                <button onclick="switchTab('documentation')" class="tab-button px-6 py-3 rounded-md font-medium text-gray-600 hover:text-gray-900" data-tab="documentation">
+                    <i class="fas fa-book mr-2"></i>Dokumentasi
+                </button>
+            </div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Arsitektur Sistem</h3>
+                <p class="text-lg text-gray-600 mb-8">Platform terintegrasi dengan berbagai modul untuk mendukung tata kelola pemerintahan yang modern</p>
+                
+                <!-- Architecture Diagram -->
+                <div class="bg-white rounded-xl shadow-lg p-8 max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- User Levels -->
+                        <div class="text-center lg:w-full">
+                            <h4 class="font-semibold text-gray-900 mb-4">Level Pengguna</h4>
+                            <div class="space-y-3">
+                                <div class="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-500">
+                                    <div class="font-medium text-blue-900">Walikota</div>
+                                    <div class="text-sm text-blue-700">Monitoring kota</div>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-500">
+                                    <div class="font-medium text-green-900">Camat</div>
+                                    <div class="text-sm text-green-700">Monitoring kecamatan</div>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg border-l-4 border-purple-500">
+                                    <div class="font-medium text-purple-900">Lurah</div>
+                                    <div class="text-sm text-purple-700">Monitoring kelurahan</div>
+                                </div>
+                                <div class="bg-amber-50 p-3 rounded-lg border-l-4 border-amber-500">
+                                    <div class="font-medium text-amber-900">Ketua RW</div>
+                                    <div class="text-sm text-amber-700">Koordinasi RT</div>
+                                </div>
+                                <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                    <div class="font-medium text-red-900">Ketua RT</div>
+                                    <div class="text-sm text-red-700">Layanan warga</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Core Modules -->
+                        <div class="text-center lg:w-full">
+                            <h4 class="font-semibold text-gray-900 mb-4">Modul Utama</h4>
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="font-medium text-gray-900">Dashboard & Analytics</div>
+                                    <div class="text-sm text-gray-600">Monitoring real-time</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="font-medium text-gray-900">Manajemen Pelaporan</div>
+                                    <div class="text-sm text-gray-600">Tracking & eskalasi</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="font-medium text-gray-900">Manajemen UMKM</div>
+                                    <div class="text-sm text-gray-600">Database & bantuan</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="font-medium text-gray-900">Musyawarah Digital</div>
+                                    <div class="text-sm text-gray-600">Online & dokumentasi</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="font-medium text-gray-900">User Management</div>
+                                    <div class="text-sm text-gray-600">Role & permissions</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-tachometer-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Komprehensif</h4>
+                    <p class="text-gray-600">Monitoring real-time dengan KPI, charts, dan analytics untuk semua level pemerintahan</p>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-mobile-alt text-green-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Mobile First Design</h4>
+                    <p class="text-gray-600">Aplikasi mobile yang user-friendly dengan offline capability dan push notifications</p>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Keamanan Terintegrasi</h4>
+                    <p class="text-gray-600">Multi-factor authentication, role-based access control, dan audit logging</p>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-amber-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Analytics & Reporting</h4>
+                    <p class="text-gray-600">Laporan komprehensif dengan export capabilities dan data visualization</p>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-sync text-red-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Real-time Sync</h4>
+                    <p class="text-gray-600">Sinkronisasi data real-time antara web dan mobile dengan offline support</p>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-palette text-cyan-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Tema Melayu Modern</h4>
+                    <p class="text-gray-600">Desain yang mencerminkan identitas budaya Melayu dengan sentuhan modern</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web App Tab -->
+        <div id="web-tab" class="tab-content">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Aplikasi Web</h3>
+                <p class="text-lg text-gray-600">Dashboard dan manajemen sistem untuk pejabat pemerintahan</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dashboard Pages -->
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/dashboard-walikota.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-tachometer-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Dashboard</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Walikota</h4>
+                    <p class="text-gray-600 text-sm mb-4">Executive dashboard dengan KPI kota, monitoring wilayah, dan analytics komprehensif</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Charts</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Maps</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Real-time</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/dashboard-camat.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-bar text-green-600 text-xl"></i>
+                        </div>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Dashboard</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Camat</h4>
+                    <p class="text-gray-600 text-sm mb-4">Monitoring kecamatan dengan performa RW, pelaporan, dan statistik wilayah</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Analytics</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Performance</span>
+                    </div>
+                </div>
+
+                <!-- Management Pages -->
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/manajemen-wilayah.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-map-marked-alt text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">CRUD</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Manajemen Wilayah</h4>
+                    <p class="text-gray-600 text-sm mb-4">CRUD lengkap untuk data kecamatan, kelurahan, RW, dan RT dengan validasi dan export</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Create</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Read</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Update</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Delete</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/manajemen-pelaporan.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clipboard-list text-amber-600 text-xl"></i>
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">CRUD</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Manajemen Pelaporan</h4>
+                    <p class="text-gray-600 text-sm mb-4">Sistem pelaporan dengan filtering, tracking status, dan eskalasi otomatis</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Tracking</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Export</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/manajemen-umkm.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-store text-red-600 text-xl"></i>
+                        </div>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">CRUD</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Manajemen UMKM</h4>
+                    <p class="text-gray-600 text-sm mb-4">Database UMKM dengan tracking bantuan, analytics, dan integrasi payment</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Payment</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Analytics</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/manajemen-musyawarah.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-cyan-600 text-xl"></i>
+                        </div>
+                        <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium">CRUD</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Manajemen Musyawarah</h4>
+                    <p class="text-gray-600 text-sm mb-4">Musyawarah digital dengan calendar, notulen online, dan attendance tracking</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Calendar</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Documentation</span>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/user-management.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users-cog text-indigo-600 text-xl"></i>
+                        </div>
+                        <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">CRUD</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">User Management</h4>
+                    <p class="text-gray-600 text-sm mb-4">Manajemen pengguna dengan role-based access control dan permissions</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Roles</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Permissions</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/user-detail.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user text-pink-600 text-xl"></i>
+                        </div>
+                        <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm font-medium">Detail</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">User Detail</h4>
+                    <p class="text-gray-600 text-sm mb-4">Detail pengguna dengan tabs untuk profile, activity, permissions, dan logs</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Multi-tab</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Activity Log</span>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('web/settings.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cog text-gray-600 text-xl"></i>
+                        </div>
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Config</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Pengaturan Sistem</h4>
+                    <p class="text-gray-600 text-sm mb-4">Konfigurasi sistem dengan 5 tabs untuk semua pengaturan aplikasi</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Multi-tab</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">System Config</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Android App Tab -->
+        <div id="android-tab" class="tab-content">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Aplikasi Android</h3>
+                <p class="text-lg text-gray-600">Mobile apps untuk Ketua RT/RW dan warga dengan offline capability</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dashboard Pejabat -->
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/dashboard-walikota-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-city text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Executive</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Walikota</h4>
+                    <p class="text-gray-600 text-sm mb-4">Dashboard executive Walikota dengan monitoring kota dan analytics komprehensif</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Executive</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Analytics</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/dashboard-camat-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-bar text-green-600 text-xl"></i>
+                        </div>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Management</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Camat</h4>
+                    <p class="text-gray-600 text-sm mb-4">Dashboard Camat dengan monitoring kelurahan dan performa RW</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Management</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Performance</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/dashboard-lurah-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users-cog text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Operations</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Lurah</h4>
+                    <p class="text-gray-600 text-sm mb-4">Dashboard Lurah dengan koordinasi RT dan layanan warga</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Operations</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Coordination</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/dashboard-warga-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-xl"></i>
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">Citizen</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard Warga</h4>
+                    <p class="text-gray-600 text-sm mb-4">Dashboard warga dengan layanan pelaporan dan informasi komunitas</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Citizen</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Services</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/dashboard-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-cyan-600 text-xl"></i>
+                        </div>
+                        <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium">RT/RW</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Dashboard RT/RW</h4>
+                    <p class="text-gray-600 text-sm mb-4">Dashboard mobile untuk Ketua RT/RW dengan quick actions dan status monitoring</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Mobile-first</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Touch-friendly</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/laporan-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-edit text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Form</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Form Pelaporan</h4>
+                    <p class="text-gray-600 text-sm mb-4">Form pelaporan mobile dengan photo upload, GPS tagging, dan offline draft</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Camera</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">GPS</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/data-warga-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Database</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Data Warga</h4>
+                    <p class="text-gray-600 text-sm mb-4">Database warga mobile dengan search, filter, dan detailed profiles</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Search</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Filter</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/profil-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-xl"></i>
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">Profile</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Profil Pengguna</h4>
+                    <p class="text-gray-600 text-sm mb-4">Profil mobile dengan settings, preferences, dan account management</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Settings</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Preferences</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('android/notifikasi-mobile.html')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bell text-red-600 text-xl"></i>
+                        </div>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Notifications</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Notifikasi Mobile</h4>
+                    <p class="text-gray-600 text-sm mb-4">Sistem notifikasi real-time dengan filtering, mark as read, dan push notifications</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Real-time</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Push</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-mobile-alt text-cyan-600 text-xl"></i>
+                        </div>
+                        <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium">Mobile</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Mobile Features</h4>
+                    <p class="text-gray-600 text-sm mb-4">Fitur mobile spesifik seperti offline mode, biometric auth, dan gestures</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Offline</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Biometric</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Tab -->
+        <div id="documentation-tab" class="tab-content">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Dokumentasi Sistem</h3>
+                <p class="text-lg text-gray-600">Dokumen analisis lengkap untuk pengembangan dan implementasi</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Analisis_Sistem_RT_RW_Pekanbaru.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Analysis</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Analisis Sistem</h4>
+                    <p class="text-gray-600 text-sm mb-4">Analisis arsitektur sistem umum dengan stakeholder analysis dan teknologi stack</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Architecture</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Technology</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Analisis_Web_App_RT_RW.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-desktop text-green-600 text-xl"></i>
+                        </div>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Web</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Analisis Web App</h4>
+                    <p class="text-gray-600 text-sm mb-4">Analisis mendalam untuk aplikasi web yang digunakan oleh pejabat</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Web Analysis</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">UI/UX</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Analisis_Android_App_RT_RW.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-mobile-alt text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Mobile</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Analisis Android App</h4>
+                    <p class="text-gray-600 text-sm mb-4">Analisis untuk aplikasi mobile yang digunakan oleh Ketua RT/RW dan warga</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Mobile Analysis</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Offline</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Pemisahan_Fitur_Web_Android.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-sitemap text-amber-600 text-xl"></i>
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">Matrix</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Pemisahan Fitur</h4>
+                    <p class="text-gray-600 text-sm mb-4">Matriks pembagian fitur antara platform web dan Android</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Feature Matrix</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Integration</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Analisis_UI_UX_Designer.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-palette text-red-600 text-xl"></i>
+                        </div>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">UI/UX</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">UI/UX Designer Guide</h4>
+                    <p class="text-gray-600 text-sm mb-4">Panduan lengkap untuk UI/UX designer dengan tema Melayu modern</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Design System</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Components</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 cursor-pointer" onclick="openFile('Ringkasan_Implementasi.md')">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-rocket text-cyan-600 text-xl"></i>
+                        </div>
+                        <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium">Implementation</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Ringkasan Implementasi</h4>
+                    <p class="text-gray-600 text-sm mb-4">Panduan implementasi praktis dengan timeline dan resource allocation</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Project Management</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Deployment</span>
+                    </div>
+                </div>
+
+                <div class="file-card bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-indigo-600 text-xl"></i>
+                        </div>
+                        <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">Technical</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Technical Specifications</h4>
+                    <p class="text-gray-600 text-sm mb-4">Spesifikasi teknis lengkap untuk development dan deployment</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Tech Stack</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Sistem RT/RW Net</h4>
+                    <p class="text-gray-400">Platform digital modern untuk pemerintahan tingkat RT/RW yang menghubungkan seluruh stakeholder dalam satu ekosistem terintegrasi.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Fitur Utama</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-check mr-2"></i>Dashboard Komprehensif</li>
+                        <li><i class="fas fa-check mr-2"></i>CRUD Lengkap</li>
+                        <li><i class="fas fa-check mr-2"></i>Real-time Notifications</li>
+                        <li><i class="fas fa-check mr-2"></i>Mobile & Web Apps</li>
+                        <li><i class="fas fa-check mr-2"></i>Tema Melayu Modern</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Sistem RT/RW Net. All rights reserved.</p>
+                <p class="text-gray-400 mt-2">Dikembangkan dengan ❤️ untuk Pemerintah Kota Pekanbaru</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Elements -->
+    <div class="fixed bottom-8 right-8 floating">
+        <button onclick="scrollToTop()" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-gray-600');
+                btn.classList.remove('text-white');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to selected button
+            const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-gray-600');
+            activeBtn.classList.add('text-white');
+        }
+
+        // Open file in new tab
+        function openFile(filename) {
+            window.open(filename, '_blank');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollButton = document.querySelector('.floating');
+            if (window.pageYOffset > 300) {
+                scrollButton.style.display = 'block';
+            } else {
+                scrollButton.style.display = 'none';
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to cards
+        document.querySelectorAll('.file-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-4px) scale(1)';
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add entrance animations
+            const elements = document.querySelectorAll('.file-card');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

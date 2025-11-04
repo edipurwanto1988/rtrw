@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Sistem RT/RW Pekanbaru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-transition { transition: all 0.3s ease; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .role-badge { transition: all 0.2s ease; }
+        .status-online { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-50">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <button id="sidebarToggle" class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <div class="ml-4 flex items-center">
+                        <div class="w-8 h-8 bg-blue-800 rounded flex items-center justify-center">
+                            <i class="fas fa-city text-white text-sm"></i>
+                        </div>
+                        <h1 class="ml-3 text-xl font-semibold text-gray-900">Sistem RT/RW Pekanbaru</h1>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="relative">
+                        <input type="text" placeholder="Cari pengguna..." class="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- User Menu -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-3 text-sm rounded-lg p-2 hover:bg-gray-100">
+                            <img src="https://picsum.photos/seed/admin/40/40.jpg" alt="User" class="w-8 h-8 rounded-full">
+                            <div class="text-left">
+                                <div class="font-medium text-gray-900">Admin Sistem</div>
+                                <div class="text-xs text-gray-500">Super Admin</div>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar-transition fixed left-0 top-16 bottom-0 w-64 bg-white shadow-lg border-r border-gray-200 z-40">
+        <nav class="p-4 space-y-2">
+            <a href="dashboard-walikota.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-tachometer-alt w-5"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="manajemen-wilayah.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-map-marked-alt w-5"></i>
+                <span>Manajemen Wilayah</span>
+            </a>
+            <a href="manajemen-pelaporan.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-clipboard-list w-5"></i>
+                <span>Pelaporan</span>
+                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>
+            </a>
+            <a href="manajemen-umkm.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-store w-5"></i>
+                <span>UMKM</span>
+            </a>
+            <a href="manajemen-musyawarah.html" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-users w-5"></i>
+                <span>Musyawarah</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-chart-bar w-5"></i>
+                <span>Laporan</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-700">
+                <i class="fas fa-users-cog w-5"></i>
+                <span>User Management</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-cog w-5"></i>
+                <span>Pengaturan</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 mt-16 p-6">
+        <!-- Page Header -->
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">User Management</h2>
+                <p class="text-gray-600">Kelola pengguna sistem dan hak akses</p>
+            </div>
+            <div class="flex space-x-3">
+                <button onclick="exportUsers()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center space-x-2">
+                    <i class="fas fa-download"></i>
+                    <span>Export</span>
+                </button>
+                <button onclick="openAddUserModal()" class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 flex items-center space-x-2">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Tambah User</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div class="card-hover bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">+12%</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">1,247</div>
+                <div class="text-sm text-gray-600">Total Users</div>
+            </div>
+
+            <div class="card-hover bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-circle text-green-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">Online</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">342</div>
+                <div class="text-sm text-gray-600">Active Now</div>
+            </div>
+
+            <div class="card-hover bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user-clock text-amber-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-full">Pending</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">28</div>
+                <div class="text-sm text-gray-600">Pending Approval</div>
+            </div>
+
+            <div class="card-hover bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user-slash text-red-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs font-medium text-red-600 bg-red-100 px-2 py-1 rounded-full">Inactive</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">15</div>
+                <div class="text-sm text-gray-600">Inactive Users</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>Semua Role</option>
+                        <option>Super Admin</option>
+                        <option>Walikota</option>
+                        <option>Camat</option>
+                        <option>Lurah</option>
+                        <option>Ketua RW</option>
+                        <option>Ketua RT</option>
+                        <option>Warga</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>Semua Status</option>
+                        <option>Aktif</option>
+                        <option>Non-Aktif</option>
+                        <option>Pending</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Wilayah</label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>Semua Wilayah</option>
+                        <option>Pekanbaru Kota</option>
+                        <option>Sail</option>
+                        <option>Lima Puluh</option>
+                        <option>Rumbai</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Registrasi</label>
+                    <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Daftar Pengguna</h3>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <i class="fas fa-sort"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Wilayah</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Login</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="https://picsum.photos/seed/user1/40/40.jpg" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Ahmad Sutrisno</div>
+                                        <div class="text-sm text-gray-500">ahmad.sutrisno@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="role-badge px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Ketua RT</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">RT 03/RW 05, Sukajadi</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="status-online w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Aktif</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 jam lalu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="viewUserDetail(1)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editUser(1)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="resetPassword(1)" class="text-amber-600 hover:text-amber-900 mr-3">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                <button onclick="suspendUser(1)" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="https://picsum.photos/seed/user2/40/40.jpg" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Siti Rahayu</div>
+                                        <div class="text-sm text-gray-500">siti.rahayu@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="role-badge px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Lurah</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Kelurahan Sukajadi</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Offline</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 hari lalu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="viewUserDetail(2)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editUser(2)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="resetPassword(2)" class="text-amber-600 hover:text-amber-900 mr-3">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                <button onclick="suspendUser(2)" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="https://picsum.photos/seed/user3/40/40.jpg" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Budi Santoso</div>
+                                        <div class="text-sm text-gray-500">budi.santoso@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="role-badge px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Camat</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Kecamatan Sail</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="status-online w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Aktif</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">30 menit lalu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="viewUserDetail(3)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editUser(3)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="resetPassword(3)" class="text-amber-600 hover:text-amber-900 mr-3">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                <button onclick="suspendUser(3)" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="https://picsum.photos/seed/user4/40/40.jpg" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Rina Wijaya</div>
+                                        <div class="text-sm text-gray-500">rina.wijaya@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="role-badge px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">Warga</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">RT 05/RW 03, Sukajadi</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Aktif</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5 menit lalu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="viewUserDetail(4)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editUser(4)" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="resetPassword(4)" class="text-amber-600 hover:text-amber-900 mr-3">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                <button onclick="suspendUser(4)" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                <div class="text-sm text-gray-700">
+                    Menampilkan <span class="font-medium">1</span> hingga <span class="font-medium">10</span> dari <span class="font-medium">1,247</span> hasil
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 bg-white hover:bg-gray-50">Previous</button>
+                    <button class="px-3 py-1 border border-blue-500 rounded-md text-sm text-blue-600 bg-blue-50">1</button>
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50">2</button>
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50">3</button>
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50">Next</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="modal-backdrop flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0 bg-black bg-opacity-50">
+            <div class="fade-in bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-2xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="w-full">
+                            <h3 id="userModalTitle" class="text-lg leading-6 font-medium text-gray-900 mb-4">Tambah User Baru</h3>
+                            <form id="userForm" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Nama Lengkap *</label>
+                                        <input type="text" id="fullName" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Email *</label>
+                                        <input type="email" id="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Nomor Telepon *</label>
+                                        <input type="tel" id="phone" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">NIK</label>
+                                        <input type="text" id="nik" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Role *</label>
+                                        <select id="role" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option value="">Pilih Role</option>
+                                            <option value="super_admin">Super Admin</option>
+                                            <option value="walikota">Walikota</option>
+                                            <option value="camat">Camat</option>
+                                            <option value="lurah">Lurah</option>
+                                            <option value="ketua_rw">Ketua RW</option>
+                                            <option value="ketua_rt">Ketua RT</option>
+                                            <option value="warga">Warga</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Wilayah</label>
+                                        <select id="region" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                            <option value="">Pilih Wilayah</option>
+                                            <option value="pekanbaru_kota">Pekanbaru Kota</option>
+                                            <option value="sail">Sail</option>
+                                            <option value="lima_puluh">Lima Puluh</option>
+                                            <option value="rumbai">Rumbai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Alamat</label>
+                                    <textarea id="address" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border"></textarea>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Password</label>
+                                        <input type="password" id="password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                        <p class="mt-1 text-xs text-gray-500">Kosongkan jika tidak mengubah password</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                                        <input type="password" id="confirmPassword" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="sendEmail" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="sendEmail" class="ml-2 block text-sm text-gray-900">
+                                        Kirim email konfirmasi ke user
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onclick="saveUser()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-800 text-base font-medium text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Simpan User
+                    </button>
+                    <button onclick="closeUserModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="notification" class="hidden fixed top-20 right-4 z-50 fade-in">
+        <div class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText">Data berhasil disimpan!</span>
+        </div>
+    </div>
+
+    <script>
+        let currentEditUserId = null;
+
+        // Sidebar Toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const main = document.querySelector('main');
+            sidebar.classList.toggle('-translate-x-full');
+            main.classList.toggle('ml-0');
+            main.classList.toggle('ml-64');
+        });
+
+        // User Modal Functions
+        function openAddUserModal() {
+            currentEditUserId = null;
+            document.getElementById('userModalTitle').textContent = 'Tambah User Baru';
+            document.getElementById('userForm').reset();
+            document.getElementById('userModal').classList.remove('hidden');
+        }
+
+        function editUser(userId) {
+            currentEditUserId = userId;
+            document.getElementById('userModalTitle').textContent = 'Edit User';
+            
+            // Load existing user data (simulation)
+            document.getElementById('fullName').value = 'User Name ' + userId;
+            document.getElementById('email').value = 'user' + userId + '@email.com';
+            document.getElementById('phone').value = '0812-3456-789' + userId;
+            document.getElementById('nik').value = '140101123456000' + userId;
+            
+            document.getElementById('userModal').classList.remove('hidden');
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.add('hidden');
+            currentEditUserId = null;
+        }
+
+        function saveUser() {
+            // Validate form
+            const form = document.getElementById('userForm');
+            if (!form.checkValidity()) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            // Simulate save operation
+            showNotification('User berhasil disimpan!');
+            closeUserModal();
+            
+            console.log('Saving user:', {
+                id: currentEditUserId,
+                formData: {
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    role: document.getElementById('role').value,
+                    region: document.getElementById('region').value
+                }
+            });
+        }
+
+        function viewUserDetail(userId) {
+            // Navigate to user detail page
+            window.location.href = `user-detail.html?id=${userId}`;
+        }
+
+        function resetPassword(userId) {
+            if (confirm('Apakah Anda yakin ingin mereset password user ini?')) {
+                showNotification('Password berhasil direset!');
+                console.log('Reset password for user:', userId);
+            }
+        }
+
+        function suspendUser(userId) {
+            if (confirm('Apakah Anda yakin ingin menonaktifkan user ini?')) {
+                showNotification('User berhasil dinonaktifkan!');
+                console.log('Suspend user:', userId);
+            }
+        }
+
+        function exportUsers() {
+            showNotification('Data user sedang diekspor...');
+            setTimeout(() => {
+                showNotification('Data user berhasil diekspor!');
+            }, 2000);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            document.getElementById('notificationText').textContent = message;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeUserModal();
+            }
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('userModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeUserModal();
+            }
+        });
+
+        // Simulate real-time status updates
+        setInterval(() => {
+            const statusDots = document.querySelectorAll('.status-online');
+            statusDots.forEach(dot => {
+                if (Math.random() > 0.7) {
+                    dot.classList.add('status-online');
+                } else {
+                    dot.classList.remove('status-online');
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
